@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impostor - Edición Extendida</title>
-    <!-- Tailwind CSS (CDN) -->
+    <title>Impostor - AI Powered</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Tu hoja de estilos -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4 selection:bg-purple-500 selection:text-white">
 
+    <!-- PANTALLA DE CARGA INICIAL -->
+    <div id="loading-overlay" class="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center animate-fade-in">
+        <div class="loader mb-4"></div>
+        <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Cargando Datos con IA...</h2>
+        <p id="loading-text" class="text-gray-500 text-sm mt-2">Generando palabras únicas...</p>
+    </div>
+
     <div class="w-full max-w-md h-full min-h-[600px] flex flex-col items-center justify-center relative">
         
         <!-- PANTALLA 1: MENÚ -->
-        <div id="screen-menu" class="w-full animate-fade-in flex flex-col gap-6">
+        <div id="screen-menu" class="hidden-screen w-full animate-fade-in flex flex-col gap-6">
             <div class="text-center space-y-2">
                 <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 tracking-tighter">IMPOSTOR</h1>
-                <p class="text-gray-400 text-lg flex items-center justify-center gap-2"><i data-lucide="smartphone" class="w-5 h-5"></i> Modo Local  v1.1.0</p>
+                <p class="text-gray-400 text-lg flex items-center justify-center gap-2"><i data-lucide="smartphone" class="w-5 h-5"></i> Modo Local v1.2.0</p>
             </div>
 
             <div class="bg-gray-800 p-6 rounded-3xl w-full shadow-2xl border border-gray-700">
-                <!-- Selector Jugadores -->
                 <div class="mb-6 bg-gray-900/50 p-4 rounded-2xl border border-gray-700/50">
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-gray-300 font-bold flex items-center gap-2"><i data-lucide="users" class="text-purple-400 w-5 h-5"></i> Jugadores</span>
@@ -36,14 +39,28 @@
                     </div>
                 </div>
 
-                <div id="category-grid" class="grid grid-cols-2 gap-3 mb-4">
-                    <!-- Las categorías se generan con JS -->
-                </div>
+                <!-- Botón Categoría Personalizada -->
+                <button onclick="showCustomInput()" class="w-full mb-4 bg-gray-700 hover:bg-gray-600 text-purple-300 font-bold py-3 rounded-xl flex items-center justify-center gap-2 border border-purple-500/30">
+                    <i data-lucide="plus-circle" class="w-5 h-5"></i> Crear Categoría Nueva
+                </button>
+
+                <!-- Categorías Dinámicas -->
+                <div id="category-grid" class="grid grid-cols-2 gap-3 mb-4"></div>
                 
-                <button onclick="startGame(null)" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all flex items-center justify-center gap-2">
+                <button onclick="startGame('Aleatorio')" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all flex items-center justify-center gap-2">
                     <i data-lucide="shuffle" class="w-5 h-5"></i> Aleatorio
                 </button>
-                <p id="reset-msg" class="text-center text-xs text-gray-500 mt-4 hidden">♻️ Base de datos reiniciada para esta categoría</p>
+            </div>
+        </div>
+
+        <!-- PANTALLA INPUT CUSTOM -->
+        <div id="screen-custom" class="hidden-screen w-full animate-fade-in bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-2xl">
+            <h2 class="text-xl font-bold text-white mb-2">Crear Categoría con IA</h2>
+            <p class="text-gray-400 text-sm mb-4">Escribe cualquier tema. La IA generará las palabras.</p>
+            <input type="text" id="custom-topic" placeholder="Ej: Personajes de Anime, Marcas de Ropa..." class="w-full bg-gray-900 text-white p-4 rounded-xl border border-gray-600 focus:border-purple-500 outline-none mb-4">
+            <div class="flex gap-2">
+                <button onclick="showScreen('screen-menu')" class="flex-1 bg-gray-700 py-3 rounded-xl font-bold">Cancelar</button>
+                <button onclick="handleCustomCategory()" class="flex-1 bg-purple-600 py-3 rounded-xl font-bold text-white">Generar</button>
             </div>
         </div>
 
@@ -98,7 +115,6 @@
         </div>
     </div>
 
-    <!-- Tu lógica del juego -->
     <script src="script.js"></script>
 </body>
 </html>
